@@ -1,0 +1,172 @@
+@import './base.css';
+@import 'bootstrap';
+
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+/* Primary color (Purple) */
+.primary-color {
+    color: #38003C;
+}
+/* Secondary color (Gold/Yellow) */
+.secondary-color {
+    color: #FFCD00;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.banner {
+    background-color: #04f5ff;
+}
+
+.banner .container {
+    background-color: #00ff85;
+}
+
+/* Main content background */
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation bar */
+.navbar {
+    background-color: #38003C; /* EPL primary color */
+}
+
+.navbar-brand {
+    font-family: "Lato", sans-serif;
+    font-size: 24px;
+    color: #ffffff;
+    pointer-events: none; 
+}
+
+/* Navbar links */
+.navbar-nav .nav-link {
+    color: #ffffff; /* EPL secondary color */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #FFCD00 ; /* Change link text color on hover */
+}
+
+/* Active link */
+.navbar-nav .nav-item.active .nav-link {
+    color: #04f5ff; /* Active link text color */
+}
+
+.nav-item.dropdown  .dropdown-menu{
+    background-color: #38003C;
+}
+
+a.dropdown-item {
+    color: #ffffff;
+}
+
+a.dropdown-item:hover {
+    background-color: #FFCD00;
+    cursor: pointer;
+}
+
+
+/* Hamburger icon color */
+.navbar-toggler-icon {
+    background-color: #FFCD00; /* EPL secondary color */
+}
+
+/* Primary buttons */
+.btn-primary {
+    background-color: #38003C;
+    border-color: #38003C;
+}
+
+.btn-primary:hover {
+    background-color: #250025; /* Slightly darker purple on hover */
+    border-color: #250025;
+}
+
+/* Secondary buttons */
+.btn-outline-secondary {
+    border-color: #38003C;
+    color: #38003C;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #38003C;
+    color: #fff;
+}
+
+/* Football-themed section headers */
+h1, h2 {
+    color: #38003C;
+}
+
+/* Football match list item */
+.list-group-item {
+    margin-bottom: 10px;
+    position: relative;
+    background-color: #f9f9f9;
+    border-color: #ddd;
+}
+
+.list-group-item p {
+    margin-bottom: 10px;
+}
+
+/* Football match location badge */
+.badge-success {
+    background-color: #38003C;
+}
+
+/* Football match RSVP button */
+.list-group-item button {
+    background-color: #38003C;
+    border-color: #38003C;
+    color: #fff;
+}
+
+.list-group-item button:hover {
+    background-color: #250025;
+    border-color: #250025;
+}
+
+/* Football-themed footer */
+footer {
+    background-color: #38003c;
+    color: #fff;
+    font-size: 14px;
+}
+
+footer.authpage {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.match-details-outer {
+    background-color: #04f5ff;
+}
+
+.match-details-card {
+    background-color: #00ff85;
+}
+
+.tags-input {
+    font-family: "Lato", sans-serif !important;
+    max-width: 100% !important;
+    border-radius: 5px !important;
+}
+
+/* Responsive styles for small screens */
+@media (max-width: 768px) {
+    .col-md-6 {
+        margin-bottom: 20px;
+    }
+}

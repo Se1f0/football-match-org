@@ -1,0 +1,142 @@
+<template>
+    <div class="container mt-5">
+        <!-- Match scheduling form -->
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <h2  class="text-center">Schedule a Match</h2>
+                <form @submit.prevent="matchStore.createMatch(match,tags,tags2)">
+                    <div class="form-group">
+                        <label for="match_date">Date & Time:</label>
+                        <input type="datetime-local" class="form-control" id="match_date"  step="1" v-model="match.date_time">
+                        <p class="text-danger" v-if="matchStore.formErrors.date_time">{{ matchStore.formErrors.date_time[0] }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input type="text" class="form-control" id="location" placeholder="Enter Where The Match Will Take Place" v-model="match.location">
+                        <p class="text-danger" v-if="matchStore.formErrors.location">{{ matchStore.formErrors.location[0] }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="team_size">Team Size:</label>
+                        <select class="form-control" id="team_size" v-model="match.team_size">
+                            <option value="">Select Team Size</option>
+                            <option value="5">5-a-side</option>
+                            <option value="7">7-a-side</option>
+                            <option value="11">11-a-side</option>
+                        </select>
+                        <p class="text-danger" v-if="matchStore.formErrors.team_size">{{ matchStore.formErrors.team_size[0] }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="skill_level">Skill Level:</label>
+                        <select class="form-control" id="skill_level" v-model="match.skill_level">
+                            <option value="" selected>Select Skill Level</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                        <p class="text-danger" v-if="matchStore.formErrors.skill_level">{{ matchStore.formErrors.skill_level[0] }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="home_team_name">Home Team Name:</label>
+                        <input type="text" class="form-control" id="home_team_name" placeholder="Enter The Home Team Name" v-model="match.home_team_name">
+                        <p class="text-danger" v-if="matchStore.formErrors.home_team_name">{{ matchStore.formErrors.home_team_name[0] }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="home_player_names">Home Team Player Names (comma-separated):</label>
+                        <vue-tags-input  placeholder="Add a player" v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags" class="tags-input"/>
+                        <!-- <input type="text" class="form-control" id="home_player_names" placeholder="Enter Home team player names" v-model="match.home_team_players"> -->
+                        <p class="text-danger" v-if="matchStore.formErrors.home_team_players">{{ matchStore.formErrors.home_team_players[0] }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="away_team_name">Away Team Name:</label>
+                        <input type="text" class="form-control" id="away_team_name" placeholder="Enter The Away Team Name" v-model="match.away_team_name">
+                        <p class="text-danger" v-if="matchStore.formErrors.away_team_name">{{ matchStore.formErrors.away_team_name[0] }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="away_player_names">Away Team Player Names (comma-separated):</label>
+                        <vue-tags-input placeholder="Add a player" v-model="tag2" :tags="tags2" @tags-changed="newTags2 => tags2 = newTags2" class="tags-input"/>
+                        <!-- <input type="text" class="form-control" id="away_player_names" placeholder="Enter Away team player names" v-model="match.away_team_players"> -->
+                        <p class="text-danger" v-if="matchStore.formErrors.away_team_players">{{ matchStore.formErrors.away_team_players[0] }}</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary" v-if="!matchStore.loading">Schedule Match</button>
+                    <button class="btn btn-primary " type="button" disabled style="background-color: #38003C;border-color: #38003C;" v-if="matchStore.loading">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        Creating...
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import VueTagsInput from '@sipec/vue3-tags-input';
+import { useMatchStore } from "../stores/match.js";
+
+const matchStore = useMatchStore();
+
+const tag = ref('');
+const tags = ref([]);
+const tag2 = ref('');
+const tags2 = ref([]);
+
+const match = ref({
+    date_time: null,
+    location: "",
+    team_size: null,
+    skill_level: null,
+    home_team_name: "",
+    home_team_players: "",
+    away_team_name: "",
+    away_team_players: ""
+});
+
+
+</script>
+
+<!-- <script setup>
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import axios from 'axios';
+import VueTagsInput from '@sipec/vue3-tags-input';
+
+const router = useRouter();
+
+const tag = ref('');
+const tags = ref([]);
+const tag2 = ref('');
+const tags2 = ref([]);
+
+const match = ref({
+    date_time: null,
+    location: "",
+    team_size: null,
+    skill_level: null,
+    home_team_name: "",
+    home_team_players: "",
+    away_team_name: "",
+    away_team_players: ""
+});
+const errors = ref({});
+const loading = ref(false);
+
+const createMatch = async () => {
+    loading.value = true;
+    try {
+        match.value.home_team_players = tags.value.map((elem) => {
+            return elem.text;
+        }).join();
+        match.value.away_team_players = tags2.value.map((elem) => {
+            return elem.text;
+        }).join();
+        await axios.post(`http://127.0.0.1:8000/api/matches/add`,match.value);
+        await router.push({name: "matches"});
+        loading.value = false;
+    } catch (error) {
+        if (error.response.status === 422) {
+            errors.value = error.response.data.errors
+            loading.value = false;
+        }
+    }
+}
+</script> -->
