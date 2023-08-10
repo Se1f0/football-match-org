@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\MatcheController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    // get authenticated user details
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    // get authenticated user profile
+    Route::get('/profile', [ProfileController::class, 'showMyProfile']);
+    // create new match
+    Route::post('/matches/add', [MatcheController::class, 'store']);
+    //update match details
+    Route::put('/matches/{id}/edit', [MatcheController::class, 'update']);
+    //delete match
+    Route::delete('/matches/{id}/delete', [MatcheController::class, 'destroy']);
 });
 
 // get all matches
@@ -26,13 +42,13 @@ Route::get('/matches', [MatcheController::class, 'index']);
 Route::get('/matches/upcoming', [MatcheController::class, 'upcomingMatches']);
 
 // create new match
-Route::post('/matches/add', [MatcheController::class, 'store']);
+// Route::post('/matches/add', [MatcheController::class, 'store']);
 
 //show match details
 Route::get('/matches/{id}', [MatcheController::class, 'show']);
 
 //update match details
-Route::put('/matches/{id}/edit', [MatcheController::class, 'update']);
+// Route::put('/matches/{id}/edit', [MatcheController::class, 'update']);
 
 //delete match
-Route::delete('/matches/{id}/delete', [MatcheController::class, 'destroy']);
+// Route::delete('/matches/{id}/delete', [MatcheController::class, 'destroy']);

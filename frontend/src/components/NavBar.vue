@@ -30,8 +30,8 @@
                         {{ authStore.user.name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <RouterLink class="dropdown-item" to="/my-profile">Profile</RouterLink>
                             <a class="dropdown-item" @click="authStore.handleLogout">Logout</a>
-                            
                         </div>
                     </li>
                 </template>
