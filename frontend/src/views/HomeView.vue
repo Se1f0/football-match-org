@@ -35,28 +35,41 @@
         <!-- Upcoming matches -->
         <div class="row">
             <div class="col-md-12">
-                <h2 class="text-center">Upcoming Matches</h2>
-                <ul class="list-group" id="upcoming_matches_list">
-                    <!-- Sample upcoming match -->
-                    <li class="list-group-item" v-for="(match,index) in matchStore.upcomingMatches" :key="index">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Date:</strong> {{ matchStore.formattedDate[index] }}
-                                <br>
-                                <strong>Time:</strong> {{ matchStore.formattedTime[index]}}
-                                <br>
-                                <strong>Team size:</strong> {{ match.team_size }}
-                                <br>
-                                <strong>Home Team:</strong> {{ match.home_team_name }}
-                                <br>
-                                <strong>Away Team:</strong> {{ match.away_team_name }}
+                <div v-if="!matchStore.loading && matchStore.upcomingMatches.length > 0 && !matchStore.errors">
+                    <h2 class="text-center">Upcoming Matches</h2>
+                    <ul class="list-group" id="upcoming_matches_list">
+                        <!-- Sample upcoming match -->
+                        <li class="list-group-item" v-for="(match,index) in matchStore.upcomingMatches" :key="index">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>Date:</strong> {{ matchStore.formattedDate[index] }}
+                                    <br>
+                                    <strong>Time:</strong> {{ matchStore.formattedTime[index]}}
+                                    <br>
+                                    <strong>Team size:</strong> {{ match.team_size }}
+                                    <br>
+                                    <strong>Home Team:</strong> {{ match.home_team_name }}
+                                    <br>
+                                    <strong>Away Team:</strong> {{ match.away_team_name }}
+                                </div>
+                                <span class="badge badge-success">{{ match.location }}</span>
                             </div>
-                            <span class="badge badge-success">{{ match.location }}</span>
-                        </div>
-                        <RouterLink class="btn btn-sm btn-outline-secondary mr-2 mt-2" :to="{name: 'matchDetails', params: {id: match.id}}">Details</RouterLink>
-                        <button class="btn btn-sm btn-outline-secondary mt-2">RSVP</button>
-                    </li>
-                </ul>
+                            <RouterLink class="btn btn-sm btn-outline-secondary mr-2 mt-2" :to="{name: 'matchDetails', params: {id: match.id}}">Details</RouterLink>
+                            <button class="btn btn-sm btn-outline-secondary mt-2">RSVP</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center" v-if="matchStore.upcomingMatches.length === 0 && !matchStore.errors">
+                    <h2>There no upcoming matches</h2>
+                </div>
+                <div class="text-center" v-if="matchStore.loading">
+                    <div class="spinner-grow" role="status" style="color: #38003C;">
+                        <span span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="text-center" v-if="matchStore.errors">
+                    <h1>{{ errors.message }}</h1>
+                </div>
             </div>
         </div>
 
@@ -93,8 +106,8 @@ const authStore = useAuthStore();
 const matchStore = useMatchStore();
 
 onMounted(async () => {
-    await authStore.getUser();
     await matchStore.getUpcomingMatches();
+    await authStore.getUser();
 })
 </script>
 

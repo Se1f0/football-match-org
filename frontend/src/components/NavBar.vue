@@ -13,9 +13,9 @@
                 <li :class="{ 'nav-item': true , active: $route.path === '/matches' }">
                     <RouterLink class="nav-link" to="/matches">All Matches</RouterLink>
                 </li>
-                <li :class="{ 'nav-item': true , active: $route.path === '/schedule' }">
+                <!-- <li :class="{ 'nav-item': true , active: $route.path === '/schedule' }">
                     <RouterLink class="nav-link" to="/schedule">Schedule</RouterLink>
-                </li>
+                </li> -->
                 <template v-if="!authStore.user">
                     <li :class="{ 'nav-item': true , active: $route.path === '/login' }">
                         <RouterLink class="nav-link" to="/login">Login</RouterLink>
@@ -31,6 +31,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" @click="authStore.handleLogout">Logout</a>
+                            
                         </div>
                     </li>
                 </template>
