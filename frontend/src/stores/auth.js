@@ -63,6 +63,7 @@ export const useAuthStore = defineStore("auth", {
                     password: form.password,
                     password_confirmation: form.password_confirmation
                 });
+                await axios.post('/api/profile');
                 this.router.push("/");
                 this.loading = false;
             } catch (error) {

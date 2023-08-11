@@ -25,6 +25,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    // create new profile
+    Route::post('/profile', [ProfileController::class, 'store']);
     // get authenticated user profile
     Route::get('/profile', [ProfileController::class, 'showMyProfile']);
     // create new match
