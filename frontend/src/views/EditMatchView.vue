@@ -110,8 +110,6 @@ onMounted(async () => {
 })
 
 </script>
-
-<!-- <script setup>
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import axios from 'axios';

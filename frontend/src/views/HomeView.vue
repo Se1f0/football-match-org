@@ -11,13 +11,6 @@
 </style>
 
 <template>
-    <!-- <div v-if="authStore.user">
-        {{ authStore.user.name }}
-        {{ authStore.user.email }}
-    </div>
-    <div v-else>
-        Go and Login
-    </div> -->
   <!-- Home page -->
   <header class="banner text-center py-5">
         <div class="container">
@@ -100,48 +93,10 @@
 <script setup>
 import { onMounted } from "vue";
 import { useMatchStore } from "../stores/match.js";
-import { useAuthStore } from "../stores/auth.js";
 
-const authStore = useAuthStore();
 const matchStore = useMatchStore();
 
 onMounted(async () => {
     await matchStore.getUpcomingMatches();
-    await authStore.getUser();
 })
 </script>
-
-<!-- <script setup>
-import { ref,computed,onMounted } from "vue";
-import axios from 'axios';
-import moment from "moment";
-
-const upcomingMatches = ref([]);
-const loading = ref(false);
-const errors = ref(null);
-
-const formattedDate = computed(() => {
-    return upcomingMatches.value.map(match => moment(match.date_time.split(" ")[0]).format('dddd DD MMM YYYY'));
-});
-
-const formattedTime = computed(() => {
-    return upcomingMatches.value.map(match => match.date_time.split(" ")[1].split(":").slice(0,2).join(":"));
-});
-
-
-const getUpcomingMatches = async () => {
-    loading.value = true;
-    try {
-        const res = await axios.get('http://127.0.0.1:8000/api/matches/upcoming');
-        upcomingMatches.value = res.data.matches
-        loading.value = false
-    } catch (error) {
-        errors.value = error
-        loading.value = false
-    }
-}
-
-onMounted(async () => {
-    await getUpcomingMatches();
-});
-</script> -->

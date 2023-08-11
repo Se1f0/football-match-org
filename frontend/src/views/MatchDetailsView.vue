@@ -63,8 +63,6 @@ onMounted(async () => {
     await matchStore.getMatchDetails(props.id);
 })
 </script>
-
-<!-- <script setup>
 import { ref,computed } from "vue";
 import axios from 'axios';
 import moment from "moment";
