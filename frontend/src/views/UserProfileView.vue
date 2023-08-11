@@ -32,7 +32,7 @@
                         </ul>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success mt-2 float-right">Edit Profile</button>
+                <RouterLink class="btn btn-success mt-2 float-right" to="/my-profile/edit" role="button">Edit Profile</RouterLink>
             </div>
         </div>
     </div>
@@ -41,6 +41,7 @@
 <script setup>
 import { onMounted } from "vue";
 import { useProfileStore } from "../stores/profile.js";
+import { RouterLink } from "vue-router";
 
 const profileStore = useProfileStore();
 
