@@ -4,7 +4,6 @@ import moment from "moment";
 
 export const useMatchStore = defineStore("match", {
     state: () => ({
-        upcomingMatches : [],
         allMatches : [],
         myMatches : [],
         matchDetails : null,
@@ -14,12 +13,6 @@ export const useMatchStore = defineStore("match", {
         message : null
     }),
     getters: {
-        formattedDate: (state) => {
-            return state.upcomingMatches.map(match => moment(match.date_time.split(" ")[0]).format('dddd DD MMM YYYY'));
-        },
-        formattedTime: (state) => {
-            return state.upcomingMatches.map(match => match.date_time.split(" ")[1].split(":").slice(0,2).join(":"));
-        },
         formattedDateAllMatches: (state) => {
             return state.allMatches.map(match => moment(match.date_time.split(" ")[0]).format('dddd DD MMM YYYY'));
         },
@@ -53,11 +46,13 @@ export const useMatchStore = defineStore("match", {
             this.loading = true;
             try {
                 const res = await axios.get('/api/matches/upcoming');
-                this.upcomingMatches = res.data.matches
+                this.allMatches = res.data.matches
                 this.loading = false
             } catch (error) {
-                this.errors = error
-                this.loading = false
+                if (error.response.status === 404) {
+                    this.errors = error.response.data.message
+                    this.loading = false;
+                }
             }
         },
         async getAllMatches() {
@@ -68,8 +63,10 @@ export const useMatchStore = defineStore("match", {
                 this.allMatches = res.data.matches
                 this.loading = false
             } catch (error) {
-                this.errors = error
-                this.loading = false
+                if (error.response.status === 404) {
+                    this.errors = error.response.data.message
+                    this.loading = false;
+                }
             }
         },
         async getMatchDetails(id) {
@@ -92,7 +89,7 @@ export const useMatchStore = defineStore("match", {
                 try {
                     const resp = await axios.delete(`/api/matches/${id}/delete`)
                     console.log('resp :>> ', resp);
-                    await this.getAllMatches();
+                    await this.getMyMatches();
                     this.message = {
                         status : 'success',
                         content : resp.data.message
@@ -120,7 +117,7 @@ export const useMatchStore = defineStore("match", {
                     status : 'success',
                     content : resp.data.message
                 }
-                await this.router.push({name: "matches"});
+                await this.router.push({name: "MyMatches"});
                 this.loading = false;
             } catch (error) {
                 if (error.response.status === 422) {
@@ -147,7 +144,7 @@ export const useMatchStore = defineStore("match", {
                     status : 'success',
                     content : resp.data.message
                 }
-                await this.router.push({name: "matches"});
+                await this.router.push({name: "MyMatches"});
                 this.loading = false;
             } catch (error) {
                 if (error.response.status === 422) {

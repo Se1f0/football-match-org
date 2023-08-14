@@ -28,16 +28,16 @@
         <!-- Upcoming matches -->
         <div class="row">
             <div class="col-md-12">
-                <div v-if="!matchStore.loading && matchStore.upcomingMatches.length > 0 && !matchStore.errors">
+                <div v-if="!matchStore.loading && matchStore.allMatches.length > 0 && !matchStore.errors">
                     <h2 class="text-center">Upcoming Matches</h2>
                     <ul class="list-group" id="upcoming_matches_list">
                         <!-- Sample upcoming match -->
-                        <li class="list-group-item" v-for="(match,index) in matchStore.upcomingMatches" :key="index">
+                        <li class="list-group-item" v-for="(match,index) in matchStore.allMatches" :key="index">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <strong>Date:</strong> {{ matchStore.formattedDate[index] }}
+                                    <strong>Date:</strong> {{ matchStore.formattedDateAllMatches[index] }}
                                     <br>
-                                    <strong>Time:</strong> {{ matchStore.formattedTime[index]}}
+                                    <strong>Time:</strong> {{ matchStore.formattedTimeAllMatches[index]}}
                                     <br>
                                     <strong>Team size:</strong> {{ match.team_size }}
                                     <br>
@@ -51,9 +51,6 @@
                             <button class="btn btn-sm btn-outline-secondary mt-2">RSVP</button>
                         </li>
                     </ul>
-                </div>
-                <div class="text-center" v-if="matchStore.upcomingMatches.length === 0 && !matchStore.errors">
-                    <h2>There no upcoming matches</h2>
                 </div>
                 <div class="text-center" v-if="matchStore.loading">
                     <div class="spinner-grow" role="status" style="color: #38003C;">
