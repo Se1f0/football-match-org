@@ -6,6 +6,7 @@ export const useMatchStore = defineStore("match", {
     state: () => ({
         upcomingMatches : [],
         allMatches : [],
+        myMatches : [],
         matchDetails : null,
         loading : false,
         errors : null,
@@ -33,6 +34,20 @@ export const useMatchStore = defineStore("match", {
         },
     },
     actions: {
+        async getMyMatches() {
+            this.errors = null;
+            this.loading = true;
+            try {
+                const res = await axios.get('/api/my-matches');
+                this.allMatches = res.data.matches
+                this.loading = false
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.errors = error.response.data.message
+                    this.loading = false;
+                }
+            }
+        },
         async getUpcomingMatches() {
             this.errors = null;
             this.loading = true;

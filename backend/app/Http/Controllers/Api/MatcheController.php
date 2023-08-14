@@ -7,6 +7,7 @@ use App\Models\Matche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class MatcheController extends Controller
 {
@@ -47,6 +48,24 @@ class MatcheController extends Controller
         }
     }
 
+    public function myMatches()
+    {
+        $myMatches = Matche::where('owner_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        if ($myMatches->count() > 0) {
+            $data = [
+                'status' => 200,
+                'matches' => $myMatches
+            ];
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'status' => 404,
+                'message' => "You Don't Have Matches",
+            ];
+            return response()->json($data, 404);
+        }
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -68,6 +87,7 @@ class MatcheController extends Controller
             return response()->json($data, 422);
         } else {
             $matche = Matche::create([
+                'owner_id' => Auth::id(),
                 'date_time' => $request->date_time,
                 'location' => $request->location,
                 'team_size' => $request->team_size,
@@ -75,7 +95,7 @@ class MatcheController extends Controller
                 'home_team_name' => $request->home_team_name,
                 'home_team_players' => $request->home_team_players,
                 'away_team_name' => $request->away_team_name,
-                'away_team_players' => $request->away_team_players
+                'away_team_players' => $request->away_team_players,
             ]);
 
             if ($matche) {

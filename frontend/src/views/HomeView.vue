@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="text-center" v-if="matchStore.errors">
-                    <h1>{{ errors.message }}</h1>
+                    <h1>{{ matchStore.errors.message }}</h1>
                 </div>
             </div>
         </div>

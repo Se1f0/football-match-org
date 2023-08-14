@@ -25,6 +25,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
     // create new profile
     Route::post('/profile', [ProfileController::class, 'store']);
     // get authenticated user profile
@@ -32,7 +33,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // update profile
     Route::put('/profile/edit', [ProfileController::class, 'update']);
 
-
+    // get user's created matches
+    Route::get('/my-matches', [MatcheController::class, 'myMatches']);
     // create new match
     Route::post('/matches/add', [MatcheController::class, 'store']);
     //update match details

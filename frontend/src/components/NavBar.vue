@@ -31,6 +31,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <RouterLink class="dropdown-item" to="/my-profile">Profile</RouterLink>
+                            <RouterLink class="dropdown-item" to="/my-matches">My Matches</RouterLink>
                             <a class="dropdown-item" @click="authStore.handleLogout">Logout</a>
                         </div>
                     </li>

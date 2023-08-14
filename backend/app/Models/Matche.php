@@ -10,6 +10,7 @@ class Matche extends Model
     use HasFactory;
     protected $table = 'matches';
     protected $fillable = [
+        'owner_id',
         'date_time',
         'location',
         'team_size',
@@ -19,4 +20,9 @@ class Matche extends Model
         'away_team_name',
         'away_team_players'
     ];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
 }

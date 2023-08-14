@@ -11,7 +11,7 @@
         </template>
         
         <div v-if="!matchStore.loading && matchStore.allMatches.length > 0 && !matchStore.errors">
-            <h1>All Matches</h1>
+            <h1 class="text-center">My Matches</h1>
             <!-- Matches List -->
             <ul class="list-group">
                 <!-- Sample match  -->
@@ -37,15 +37,14 @@
                         <span class="badge badge-success">{{ match.location }}</span>
                     </div>
                     <div class="mt-2 text-center">
+                        <!-- <button class="btn btn-sm btn-outline-secondary mr-2">RSVP</button> -->
                         <RouterLink class="btn btn-sm btn-outline-secondary mr-2" :to="{name: 'matchDetails', params: {id: match.id}}">Details</RouterLink>
-                        <!-- <RouterLink class="btn btn-sm btn-outline-secondary mr-2" :to="{name: 'matchEdit', params: {id: match.id}}">Edit</RouterLink> -->
-                        <!-- <button class="btn btn-sm btn-outline-secondary mr-2" @click="matchStore.deleteMatch(match.id)">Delete</button> -->
+                        <RouterLink class="btn btn-sm btn-outline-secondary mr-2" :to="{name: 'matchEdit', params: {id: match.id}}">Edit</RouterLink>
+                        <button class="btn btn-sm btn-outline-secondary mr-2" @click="matchStore.deleteMatch(match.id)">Delete</button>
                     </div>
+                    
                 </li>
             </ul>
-        </div>
-        <div class="text-center" v-if="matchStore.allMatches.length === 0 && !matchStore.errors">
-            <h2>No Matches found</h2>
         </div>
         <div class="text-center" v-if="matchStore.loading">
             <div class="spinner-grow" role="status" style="color: #38003C;">
@@ -53,7 +52,8 @@
             </div>
         </div>
         <div class="text-center" v-if="matchStore.errors">
-            <h1>{{ errors.message }}</h1>
+            <h1>{{ matchStore.errors }}</h1>
+            <RouterLink to="/schedule" class="btn btn-primary btn-lg mb-2">Schedule a Match</RouterLink>
         </div>
     </div>
 </template>
@@ -65,6 +65,7 @@ import { useMatchStore } from "../stores/match.js";
 const matchStore = useMatchStore();
 
 onMounted(async () => {
-    await matchStore.getAllMatches();
+    await matchStore.getMyMatches();
+    console.log('matchStore.allMatches :>> ', matchStore.allMatches);
 })
 </script>

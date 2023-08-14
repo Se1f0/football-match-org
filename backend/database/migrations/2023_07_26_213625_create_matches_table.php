@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('owner_id');
             $table->dateTime('date_time');
             $table->string('location');
             $table->unsignedInteger('team_size');
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->text('home_team_players');
             $table->string('away_team_name');
             $table->text('away_team_players');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
